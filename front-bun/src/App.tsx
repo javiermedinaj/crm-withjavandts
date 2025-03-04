@@ -1,35 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { getCustomers } from "./utils/api";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface Customer {
+  id: number;
+  name: string;
+  email: string;
 }
 
-export default App
+function App() {
+  const [customers, setCustomers] = useState<Customer[]>([]);
+
+  useEffect(() => {
+    getCustomers().then(setCustomers);
+  }, []);
+
+  return (
+    <div>
+      <h1>CRM Clientes</h1>
+      <ul>
+        {customers.map((c) => (
+          <li key={c.id}>
+            {c.name} - {c.email}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;

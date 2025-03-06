@@ -1,29 +1,24 @@
-import { useEffect, useState } from "react";
-import { getCustomers } from "./utils/api";
-
-interface Customer {
-  id: number;
-  name: string;
-  email: string;
-}
+import { DashBoard } from "./components/DashBoard";
+import { Activity } from "./components/Activity";
+import { Tasks } from "./components/Tasks";
+import { Sidebar } from "./components/SideBar";
+import { Header } from "./components/Header";
 
 function App() {
-  const [customers, setCustomers] = useState<Customer[]>([]);
-
-  useEffect(() => {
-    getCustomers().then(setCustomers);
-  }, []);
-
   return (
-    <div>
-      <h1>CRM Clientes</h1>
-      <ul>
-        {customers.map((c) => (
-          <li key={c.id}>
-            {c.name} - {c.email}
-          </li>
-        ))}
-      </ul>
+    <div className="flex h-screen bg-gray-50">
+      <Sidebar />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <Header />
+        <main className="flex-1 overflow-y-auto bg-gray-50 p-6">
+          <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard Overview</h1>
+          <DashBoard />
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Activity />
+            <Tasks />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
